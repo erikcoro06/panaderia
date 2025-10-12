@@ -1,0 +1,361 @@
+:root {
+  --negro: #2A2118;
+  --chocolate: #4D3B2A;
+  --crema: #D7CEC5;
+  --pergamino: #F5F1EB;
+  --oro: #C9B176;
+  --cobre: #B38B59;
+  --sombra-suave: 0 4px 24px rgba(42, 33, 24, 0.08);
+  --sombra-profunda: 0 12px 36px rgba(42, 33, 24, 0.12);
+  --transicion: all 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+body {
+  font-family: 'EB Garamond', serif;
+  background-color: var(--pergamino);
+  color: var(--negro);
+  line-height: 1.8;
+  margin: 0;
+  padding: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+  background-attachment: fixed;
+}
+
+/* NAVBAR */
+.navbar {
+  background: var(--chocolate);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(42,33,24,0.12);
+  font-family: 'Montserrat', Arial, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 2rem;
+}
+.navbar-logo a {
+  color: var(--oro);
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+}
+.navbar-logo a:hover {
+  color: #fff;
+  text-shadow: 0 0 6px var(--cobre);
+}
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.navbar-menu li {
+  margin: 0 0.8rem;
+}
+.navbar-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.6rem 1.1rem;
+  border-radius: 24px;
+  transition: background 0.2s, color 0.2s;
+}
+.navbar-menu a:hover,
+.navbar-menu a:focus {
+  background: var(--oro);
+  color: var(--chocolate);
+  box-shadow: 0 0 8px #c9b17680;
+  outline: none;
+}
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.bar {
+  width: 28px;
+  height: 4px;
+  background: var(--oro);
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.4s;
+}
+@media (max-width: 900px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+  }
+  .navbar-menu {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+  }
+  .navbar-menu.active {
+    display: flex;
+  }
+  .navbar-menu li {
+    width: 100%;
+    margin: 0;
+  }
+  .navbar-menu a {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    font-size: 1.2rem;
+    text-align: left;
+  }
+  .navbar-toggle {
+    display: flex;
+    margin-left: auto;
+    margin-bottom: 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .navbar-logo a {
+    font-size: 1.3rem;
+  }
+  .navbar-container {
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+/* CONTENEDOR PRINCIPAL */
+.contenedor {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* CATEGORIAS Y TITULOS */
+.category {
+  margin-bottom: 4rem;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.category-title {
+  font-family: 'Cormorant Infant', serif;
+  font-size: 2.2rem;
+  color: var(--chocolate);
+  border-bottom: 2px solid var(--oro);
+  padding-bottom: 0.8rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  letter-spacing: 1px;
+}
+.category-title::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100px;
+  height: 2px;
+  background: var(--cobre);
+}
+
+/* GRID DE PRODUCTOS */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+/* TARJETA DE PRODUCTO */
+.product-card {
+  background-color: var(--pergamino);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion);
+  border: 1px solid rgba(201, 177, 118, 0.2);
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-profunda);
+  border-color: rgba(201, 177, 118, 0.4);
+}
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(201, 177, 118, 0.2);
+}
+
+/* INFO DEL PRODUCTO */
+.product-info {
+  padding: 1.2rem;
+  text-align: center;
+}
+.product-name {
+  font-family: 'Cormorant Infant', serif;
+  font-size: 1.35rem;
+  margin: 0 0 0.5rem;
+  color: var(--chocolate);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.product-price {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-bottom: 1.1rem;
+  color: var(--cobre);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-price::before {
+  content: "$";
+  font-size: 0.9em;
+  margin-right: 2px;
+}
+
+/* CONTROLES DE CANTIDAD */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.quantity-btn {
+  background-color: var(--oro);
+  color: var(--negro);
+  border: none;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transicion);
+  font-family: 'Montserrat', sans-serif;
+}
+.quantity-btn:hover {
+  background-color: var(--cobre);
+  color: var(--pergamino);
+}
+.quantity-input {
+  width: 45px;
+  text-align: center;
+  margin: 0 10px;
+  padding: 6px;
+  border: 1px solid rgba(201, 177, 118, 0.5);
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: var(--negro);
+}
+
+/* BOTONES DE ACCIÓN */
+.add-to-cart {
+  background: linear-gradient(135deg, var(--oro), var(--cobre));
+  color: var(--negro);
+  border: none;
+  padding: 10px 0;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 98%;
+  font-size: 1rem;
+  transition: var(--transicion);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(201, 177, 118, 0.2);
+  margin-bottom: 7px;
+  margin-top: 5px;
+  display: inline-block;
+}
+.add-to-cart:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(201, 177, 118, 0.3);
+  color: var(--pergamino);
+}
+.remove-btn {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  margin: 0;
+  width: 98%;
+}
+.remove-btn:hover {
+  background: linear-gradient(135deg, #c82333, #a71d2a);
+  color: var(--pergamino);
+}
+
+/* NOTIFICACIÓN */
+.notificacion {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--chocolate);
+  color: var(--pergamino);
+  padding: 16px 28px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: var(--sombra-profunda);
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+  opacity: 0;
+  border-left: 4px solid var(--oro);
+}
+
+/* ANIMACIONES */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 22px;
+  }
+}
+@media (max-width: 768px) {
+  .contenedor {
+    padding: 0 12px;
+  }
+  .category-title {
+    font-size: 1.5rem;
+  }
+  .products-grid {
+    gap: 12px;
+  }
+}
+@media (max-width: 576px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .product-image {
+    height: 120px;
+  }
+}
+
+/* UTILIDAD */
+.hidden {
+  display: none !important;
+}

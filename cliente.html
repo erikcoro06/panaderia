@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos del Cliente - Jurassic Pan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cliente.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="catalogo.html" id="btn-panes">Panes</a></li>
+                <li><a href="pastel.html" id="btn-pasteles">Pasteles</a></li>
+                <li><a href="complementos.html" id="btn-complementos">Complementos</a></li>
+                <li><a href="cliente.html" id="link-cliente" class="activo">Datos del Cliente</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Resumen de tu pedido</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-productos"></tbody>
+        </table>
+        <div class="total-pedido">
+            <strong>Total: <span id="total-pedido">$0.00</span></strong>
+        </div>
+
+        <!-- Formulario 1: Método de pago -->
+        <form id="form-metodo-pago">
+            <h3>Método de pago</h3>
+            <label><input type="radio" name="metodo-pago" value="efectivo" required> Efectivo</label>
+            <label><input type="radio" name="metodo-pago" value="tarjeta"> Tarjeta</label>
+            <label><input type="radio" name="metodo-pago" value="transferencia"> Transferencia</label>
+
+            <!-- Efectivo -->
+         <div id="efectivo-section" class="hidden">
+    <label for="monto-efectivo">Monto recibido:</label>
+    <input type="number" id="monto-efectivo" min="0" step="1" placeholder="Monto recibido">
+    <div id="mensaje-cambio"></div>
+    <div>
+        <button type="button" class="btn-denominacion" data-monto="20">20</button>
+        <button type="button" class="btn-denominacion" data-monto="50">50</button>
+        <button type="button" class="btn-denominacion" data-monto="100">100</button>
+        <button type="button" class="btn-denominacion" data-monto="200">200</button>
+        <button type="button" class="btn-denominacion" data-monto="500">500</button>
+        <button type="button" class="btn-denominacion" data-monto="1000">1000</button>
+    </div>
+</div>
+
+            <!-- Tarjeta -->
+            <div id="tarjeta-section" class="hidden">
+                <label>Nombre del titular: <input type="text" id="nombre-titular" maxlength="60"></label>
+                <label>Número de tarjeta: <input type="text" id="numero-tarjeta" maxlength="16" pattern="[0-9]{16}"></label>
+                <label>Vencimiento: <input type="month" id="vencimiento"></label>
+                <label>CVV: <input type="password" id="cvv" maxlength="4" pattern="[0-9]{3,4}"></label>
+                <div>
+                    <label><input type="radio" name="tipo-tarjeta" value="debito"> Débito</label>
+                    <label><input type="radio" name="tipo-tarjeta" value="credito"> Crédito</label>
+                </div>
+                <div id="icono-tarjeta"></div> <!-- Nueva función: mostrar ícono según número -->
+            </div>
+
+            <!-- Transferencia -->
+            <div id="transferencia-section" class="hidden">
+                <label>Banco:
+                    <select id="banco">
+                        <option value="">Selecciona banco</option>
+                        <option value="BBVA">BBVA</option>
+                        <option value="Banamex">Banamex</option>
+                        <option value="Santander">Santander</option>
+                        <option value="HSBC">HSBC</option>
+                        <option value="Banorte">Banorte</option>
+                    </select>
+                </label>
+                <label>Número de cuenta: <input type="text" id="numero-cuenta" pattern="[0-9]{10,20}"></label>
+                <label>Nombre destinatario: <input type="text" id="nombre-destinatario"></label>
+                <label>Monto transferencia: <input type="text" id="monto-transferencia" readonly></label>
+                <label>Referencia: <span id="referencia-id"></span></label>
+            </div>
+            <button type="submit">Continuar con tipo de envío</button>
+        </form>
+
+        <!-- Formulario 2: Tipo de envío -->
+        <form id="form-tipo-envio" class="hidden">
+            <h3>Tipo de envío</h3>
+            <label><input type="radio" name="tipo-envio" value="entrega" required> Entrega a domicilio</label>
+            <label><input type="radio" name="tipo-envio" value="recoger"> Recoger en tienda</label>
+            <div id="direccion-section" class="hidden">
+                <label>Dirección de entrega: <input type="text" id="direccion-entrega" maxlength="100" placeholder="Buscar dirección (autocompletar pronto)"></label>
+                <div id="mapa-direccion" style="height: 200px;"></div> <!-- Placeholder mapa -->
+            </div>
+            <div id="sucursal-section" class="hidden">
+                <label>Sucursal:
+                    <select id="sucursal">
+                        <option value="">Selecciona sucursal</option>
+                        <option value="matriz">Matriz - Centro</option>
+                        <option value="norte">Sucursal Norte</option>
+                        <option value="sur">Sucursal Sur</option>
+                    </select>
+                </label>
+                <label>Fecha y hora de recogida:
+                    <input type="datetime-local" id="fecha-recogida">
+                </label>
+            </div>
+            <button type="submit">Continuar con datos del cliente</button>
+        </form>
+
+        <!-- Formulario 3: Datos del cliente -->
+        <form id="form-datos-cliente" class="hidden">
+            <h3>Datos del cliente</h3>
+            <label>Nombre: <input type="text" id="nombre" maxlength="60" required></label>
+            <label>Teléfono: <input type="tel" id="telefono" maxlength="15" required></label>
+            <label>Correo: <input type="email" id="correo" maxlength="50"></label>
+            <label>RFC (opcional, para factura): <input type="text" id="rfc" maxlength="13" pattern="[A-ZÑ&]{3,4}[0-9]{6}[A-Z0-9]{3}"></label>
+            <label>Comentarios o sugerencias: <textarea id="comentarios" maxlength="200" rows="2"></textarea></label>
+            <label><input type="checkbox" id="guardar-datos"> Guardar mis datos para futuras compras</label>
+            <button type="submit">Revisar resumen de pedido</button>
+        </form>
+
+        <!-- Formulario 4: Resumen final -->
+        <form id="form-resumen-final" class="hidden">
+            <h3>Resumen final del pedido</h3>
+            <div id="info-resumen">
+                <!-- Aquí se llenará el resumen final por JS -->
+            </div>
+            <button type="submit">Confirmar y finalizar pedido</button>
+            <button type="button" id="btn-editar" style="margin-left:10px;">Editar información</button>
+        </form>
+    </main>
+    <script src="cliente.js"></script>
+</body>
+</html>

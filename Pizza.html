@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pedido de Pizza</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="yoyo.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .seccion {
+            display: none;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .activa {
+            display: block;
+        }
+        
+        h1, h2, h3 {
+            color: #6A1B9A;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #6A1B9A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #4A148C;
+        }
+        
+        .mensaje-ok {
+            color: green;
+            font-weight: bold;
+        }
+        
+        .mensaje-error {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .checkbox-container div {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: #6A1B9A;
+        }
+        
+        .checkbox-container label {
+            font-weight: normal;
+            color: #555;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .checkbox-container label:hover {
+            color: #4A148C;
+        }
+        
+        #ticketResumen {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        #modalQuejas {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal-contenido {
+            background: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .checkbox-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-contenido {
+                width: 95%;
+                margin: 5% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="bienvenida" class="seccion activa">
+        <h1>¡Bienvenido a Pizzería El Comunismo de Perú!</h1>
+        <p>Gracias por elegirnos para tus antojos</p>
+        <button id="comenzar">Comenzar pedido</button>
+        <a href="index.html">Volver a inicio</a>
+        <br>
+    </div>
+
+    <div id="formulario-seccion" class="seccion">
+        <h1>Pedidos de Pizza</h1>
+        <form id="formulario">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="Fecha">Fecha:</label>
+            <input type="date" id="Fecha" name="Fecha" required>
+
+            <label for="Pizza1">Pizza 1:</label>
+            <select id="Pizza1" name="Pizza1">
+                <option value="">-- Seleccionar --</option> 
+                <option value="10">Mexicana ($10)</option>
+                <option value="12">Pepperoni ($12)</option>
+                <option value="11">Hawaiana ($11)</option>
+            </select>
+
+            <label for="Pizza2">Pizza 2:</label>
+            <select id="Pizza2" name="Pizza2">
+                <option value="">-- Seleccionar --</option> 
+                <option value="10">Mexicana ($10)</option>
+                <option value="12">Pepperoni ($12)</option>
+                <option value="11">Hawaiana ($11)</option>
+            </select>
+
+            <label for="Pizza3">Pizza 3:</label>
+            <select id="Pizza3" name="Pizza3">
+                <option value="">-- Seleccionar --</option> 
+                <option value="10">Mexicana ($10)</option>
+                <option value="12">Pepperoni ($12)</option>
+                <option value="11">Hawaiana ($11)</option>
+            </select>
+            
+            <h3>Complementos:</h3>
+            <div class="checkbox-container">
+                <div>
+                    <input type="checkbox" id="queso1" value="2">
+                    <label for="queso1">Queso extra (+$2)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="orilla" value="3">
+                    <label for="orilla">Orilla rellena (+$3)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="refresco" value="1.5">
+                    <label for="refresco">Refresco (+$1.50)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="papas" value="2.5">
+                    <label for="papas">Papas fritas (+$2.50)</label>
+                </div>
+            </div>
+
+            <button type="button" id="calcular">Calcular Total</button>
+        </form>
+    </div>
+
+    <div id="detalle-seccion" class="seccion">
+        <h2>Detalle del Pedido</h2>
+        <p id="detallePedido"></p>
+        
+        <h3>Tipo de Servicio:</h3>
+        <input type="radio" name="tipoServicio" value="Entrega a domicilio" id="entregaDomicilio" required>
+        <label for="entregaDomicilio">Entrega a Domicilio</label>
+        <input type="radio" name="tipoServicio" value="Consumo en local" id="consumoLocal" required>
+        <label for="consumoLocal">Consumo en local</label>
+
+        <button type="button" id="continuarServicio">Continuar</button>
+    </div>
+
+    <div id="pago-seccion" class="seccion">
+        <h2>Método de Pago</h2>
+        <p>Total a pagar: $<span id="totalPagar">0.00</span></p>
+        
+        <input type="radio" name="metodoPago" value="Efectivo" id="pagoEfectivo" required>
+        <label for="pagoEfectivo">Pago en efectivo</label>
+        <input type="radio" name="metodoPago" value="Tarjeta" id="pagoTarjeta" required>
+        <label for="pagoTarjeta">Pago con tarjeta</label>
+
+        <button type="button" id="continuarPago">Continuar</button>
+    </div>
+
+    <div id="domicilio-seccion" class="seccion">
+        <h1>Datos para Entrega a Domicilio</h1>
+        <form id="domicilioForm">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" required pattern="[0-9]{10}" title="Ingrese un número de teléfono válido (10 dígitos)">
+
+            <button type="button" id="continuarDomicilio">Continuar</button>
+        </form>
+    </div>
+
+    <div id="tarjeta-seccion" class="seccion">
+        <h1>Pago con Tarjeta</h1>
+        <form>
+            <label for="numeroTarjeta">Número de Tarjeta:</label>
+            <input type="text" id="numeroTarjeta" required pattern="[0-9]{16}" title="Ingrese 16 dígitos de la tarjeta">
+
+            <label for="fechaExp">Fecha de Expiración:</label>
+            <input type="text" id="fechaExp" placeholder="MM/AA" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}" title="Formato MM/AA">
+
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" required pattern="[0-9]{3,4}" title="3 o 4 dígitos del CVV">
+
+            <button type="button" id="finalizarTarjeta">Finalizar Pago</button>
+        </form>
+    </div>
+
+    <div id="efectivo-seccion" class="seccion">
+        <h1>Pago en Efectivo</h1>
+        <p>Total a pagar: $<span id="totalEfectivo">0.00</span></p>
+        
+        <label for="montoPago">Monto con el que pagas:</label>
+        <input type="number" id="montoPago" required min="0" step="0.01">
+        
+        <p id="mensajeCambio"></p>
+        
+        <button type="button" id="finalizarEfectivo">Finalizar Pedido</button>
+    </div>
+
+    <div id="ticket-seccion" class="seccion">
+        <h1>¡Gracias por tu Pedido!</h1>
+        <h3>Resumen del Pedido</h3>
+        <div id="ticketResumen"></div>
+        <button id="volver-inicio">Volver al Inicio</button>
+        <button id="imprimir-ticket">Imprimir Ticket</button>
+    </div>
+    
+ <!-- Botón flotante de quejas -->
+    <button id="btnQuejas" style="position: fixed; bottom: 20px; right: 20px; padding: 15px; background-color: #f44336; color: white; border: none; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 999;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+
+    <!-- Modal de Quejas -->
+    <div id="modalQuejas">
+        <div class="modal-contenido">
+            <h2>Quejas, Denuncias y Comentarios</h2>
+            <form id="formQuejas">
+                <label for="nombreQueja">Nombre:</label>
+                <input type="text" id="nombreQueja" name="nombreQueja" required>
+                
+                <label for="emailQueja">Correo electrónico:</label>
+                <input type="email" id="emailQueja" name="emailQueja" required>
+                
+                <label for="comentarioQueja">Comentario:</label>
+                <textarea id="comentarioQueja" name="comentarioQueja" required></textarea>
+                
+                <button type="submit">Enviar</button>
+                <button type="button" id="cerrarModal">Cerrar</button>
+            </form>
+        </div>
+    </div>
+ <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="operacion.js">
+    </script>
+</body>
+</html>
